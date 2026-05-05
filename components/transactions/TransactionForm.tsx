@@ -76,6 +76,14 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
 
     setLoading(true)
     const supabase = createClient()
+    const { data: { user } } = await supabase.auth.getUser()
+
+    if (!user) {
+      setError('Sessão expirada. Faça login novamente.')
+      setLoading(false)
+      return
+    }
+
     const payload = {
       type: form.type,
       amount,
@@ -86,7 +94,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
 
     const { error: dbError } = isEditing
       ? await supabase.from('transactions').update(payload).eq('id', transaction.id)
-      : await supabase.from('transactions').insert(payload)
+      : await supabase.from('transactions').insert({ ...payload, user_id: user.id })
 
     setLoading(false)
     if (dbError) {
@@ -117,7 +125,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
               className={`flex-1 py-2 text-sm font-medium transition-colors ${
                 form.type === 'despesa'
                   ? 'bg-red-500 text-white'
-                  : 'bg-white text-slate-600 hover:bg-slate-50'
+                  : 'bg-card text-muted-foreground hover:bg-muted'
               }`}
             >
               Despesa
@@ -128,7 +136,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
               className={`flex-1 py-2 text-sm font-medium transition-colors ${
                 form.type === 'receita'
                   ? 'bg-emerald-500 text-white'
-                  : 'bg-white text-slate-600 hover:bg-slate-50'
+                  : 'bg-card text-muted-foreground hover:bg-muted'
               }`}
             >
               Receita
@@ -163,7 +171,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
           <div className="flex flex-col gap-1.5">
             <Label>Categoria</Label>
             <Select
-              value={form.category || undefined}
+              value={form.category}
               onValueChange={(val) => setForm((f) => ({ ...f, category: val ?? '' }))}
             >
               <SelectTrigger className="w-full">
@@ -200,7 +208,7 @@ export function TransactionForm({ open, onOpenChange, transaction, onSuccess }: 
             type="submit"
             form="transaction-form"
             disabled={loading}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-orange-600 hover:bg-orange-700 text-white"
           >
             {loading ? 'Salvando...' : isEditing ? 'Atualizar' : 'Adicionar'}
           </Button>

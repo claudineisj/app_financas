@@ -16,12 +16,12 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
     .slice(0, 5)
 
   return (
-    <Card className="border-0 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-medium text-slate-700">Últimas Transações</CardTitle>
+          <CardTitle className="text-sm font-medium text-muted-foreground">Últimas Transações</CardTitle>
           <Link href="/dashboard/transacoes">
-            <Button variant="ghost" size="sm" className="text-blue-600 h-7 text-xs">
+            <Button variant="ghost" size="sm" className="text-orange-600 h-7 text-xs">
               Ver todas
             </Button>
           </Link>
@@ -29,15 +29,15 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
       </CardHeader>
       <CardContent>
         {recent.length === 0 ? (
-          <p className="text-slate-400 text-sm text-center py-6">Nenhuma transação ainda</p>
+          <p className="text-muted-foreground text-sm text-center py-6">Nenhuma transação ainda</p>
         ) : (
           <div className="flex flex-col gap-3">
             {recent.map((t) => (
               <div key={t.id} className="flex items-center gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-slate-800 truncate">{t.description}</p>
+                  <p className="text-sm font-medium text-foreground truncate">{t.description}</p>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-muted-foreground">
                       {format(parseISO(t.date), 'dd MMM', { locale: ptBR })}
                     </span>
                     <Badge
@@ -50,7 +50,9 @@ export function RecentTransactions({ transactions }: { transactions: Transaction
                 </div>
                 <span
                   className={`text-sm font-semibold shrink-0 ${
-                    t.type === 'receita' ? 'text-emerald-600' : 'text-red-600'
+                    t.type === 'receita'
+                      ? 'text-emerald-600 dark:text-emerald-400'
+                      : 'text-red-600 dark:text-red-400'
                   }`}
                 >
                   {t.type === 'receita' ? '+' : '-'}

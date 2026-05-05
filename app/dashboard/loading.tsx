@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <div className="flex items-center justify-center h-full text-slate-400 text-sm">
+    <div className="flex items-center justify-center h-full text-muted-foreground text-sm">
       Carregando...
     </div>
   )

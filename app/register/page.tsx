@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
-import { Wallet } from 'lucide-react'
+import { ThemeToggle } from '@/components/theme-toggle'
+import { Landmark } from 'lucide-react'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -44,15 +45,18 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+      <div className="min-h-screen flex items-center justify-center bg-background px-4">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
         <Card className="w-full max-w-sm">
           <CardContent className="pt-6 text-center">
             <div className="text-4xl mb-3">✉️</div>
             <h2 className="text-lg font-semibold mb-2">Confirme seu email</h2>
-            <p className="text-sm text-slate-600 mb-4">
+            <p className="text-sm text-muted-foreground mb-4">
               Enviamos um link de confirmação para <strong>{email}</strong>. Clique no link para ativar sua conta.
             </p>
-            <Link href="/login" className="text-blue-600 hover:underline text-sm font-medium">
+            <Link href="/login" className="text-orange-600 hover:underline text-sm font-medium">
               Ir para o login
             </Link>
           </CardContent>
@@ -62,14 +66,18 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-background px-4">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
-          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-blue-600 mb-4">
-            <Wallet className="text-white size-6" />
-          </div>
-          <h1 className="text-2xl font-bold text-slate-900">FinançasPessoais</h1>
-          <p className="text-slate-500 text-sm mt-1">Crie sua conta gratuitamente</p>
+          <Link href="/" className="flex items-center justify-center w-12 h-12 rounded-xl bg-orange-600 mb-4">
+            <Landmark className="text-white size-6" />
+          </Link>
+          <h1 className="text-2xl font-bold">Minhas Finanças Pessoais</h1>
+          <p className="text-muted-foreground text-sm mt-1">Crie sua conta gratuitamente</p>
         </div>
 
         <Card>
@@ -116,16 +124,21 @@ export default function RegisterPage() {
                 />
               </div>
               {error && (
-                <p className="text-sm text-red-600 bg-red-50 rounded-lg px-3 py-2">{error}</p>
+                <p className="text-sm text-red-600 bg-red-50 dark:bg-red-950/40 rounded-lg px-3 py-2">{error}</p>
               )}
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white h-9" disabled={loading}>
+              <Button type="submit" className="w-full bg-orange-600 hover:bg-orange-700 text-white h-9" disabled={loading}>
                 {loading ? 'Criando conta...' : 'Criar conta'}
               </Button>
             </form>
-            <p className="mt-4 text-center text-sm text-slate-600">
+            <p className="mt-4 text-center text-sm text-muted-foreground">
               Já tem uma conta?{' '}
-              <Link href="/login" className="text-blue-600 hover:underline font-medium">
+              <Link href="/login" className="text-orange-600 hover:underline font-medium">
                 Entrar
+              </Link>
+            </p>
+            <p className="mt-2 text-center text-sm text-muted-foreground">
+              <Link href="/" className="hover:underline">
+                ← Voltar para o início
               </Link>
             </p>
           </CardContent>
