@@ -90,9 +90,9 @@ export function CashFlowChart({ transactions }: { transactions: Transaction[] })
               width={60}
             />
             <Tooltip
-              formatter={(value: number, name: string) => [
-                formatCurrency(value),
-                name === 'receitas' ? 'Receitas' : 'Despesas',
+              formatter={(value, name) => [
+                formatCurrency(Number(value ?? 0)),
+                String(name) === 'receitas' ? 'Receitas' : 'Despesas',
               ]}
               contentStyle={{
                 borderRadius: 8,
